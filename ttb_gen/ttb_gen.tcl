@@ -48,7 +48,7 @@ set version "V 4.0"
 wm title . "TTB Gen  $version"
 
 ## the location of the template by default
-set template "../source/template_tb_bhv.vhd"
+set template "../source/template_tb_bhv.tmpl"
 
 set use_list 0
 
