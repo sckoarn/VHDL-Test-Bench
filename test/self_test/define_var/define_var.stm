@@ -1,0 +1,8 @@
+DEFINE_VAR ABC  0
+DEFINE_VAR T123 2
+DEFINE_VAR *%@  4
+
+--  use a command to  output values stated above and finish.
+MESSAGES_ON   " $ABC  $T123 $*%@
+
+FINISH
