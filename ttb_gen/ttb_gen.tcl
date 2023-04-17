@@ -89,16 +89,18 @@ set load_but [button $tsf.bt1 -text "Generate" -command ttb_gen]
 set mo_val 0
 set mo_sel [checkbutton $tsf.chb -text "Gen BHV" -variable mo_val]
 set gbatv 0
-set gbat [checkbutton $tsf.chb1 -text "Gen Bat File" -variable gbatv]
+set gbat [checkbutton $tsf.chb1 -text "Gen Modelsim" -variable gbatv]
 set dbatv 0
-set dbat [checkbutton $tsf.chb4 -text "Gen dsim build" -variable dbatv]
+set dbat [checkbutton $tsf.chb4 -text "Gen dsim" -variable dbatv]
+set ghbatv 0
+set ghbat [checkbutton $tsf.chb4 -text "Gen ghdl" -variable ghbatv]
 set cpakv 0
 set cpak [checkbutton $tsf.chb2 -text "Copy Package" -variable cpakv]
 #$mo_sel insert end "No bhv" "bhv"
 set statsVar ""
 set stat_txt [label .lb1 -textvariable statsVar]
 
-pack $cpak $gbat $dbat -side left
+pack $cpak $gbat $dbat $ghbat -side left
 pack $mo_sel -side left
 pack $load_but -side left -padx 20
 #pack $p_view -side left
@@ -1026,10 +1028,10 @@ proc ttb_gen {} {
 
         close $bhv_file
     }
-    ## generate the
+    ## generate the Modelsim
     if {$gbatv == 1} {
         set fn $destin_text
-	append fn "/build_tb.bat"
+	    append fn "/build_tb.bat"
         set batf [open $fn w+]
 
         puts $batf "ECHO OFF"
@@ -1049,7 +1051,7 @@ proc ttb_gen {} {
     # generate  dsim comands
     if {$dbatv == 1} {
         set fn $destin_text
-	append fn "/dsim_build"
+	    append fn "/dsim_build"
         set batf [open $fn w+]
         
         puts $batf "dlib map -lib ieee \$\{STD_LIBS\}/ieee08"
@@ -1059,6 +1061,23 @@ proc ttb_gen {} {
         puts $batf $str
         set str {}
         append str "dvhcom -vhdl2008 -lib work " $ent_name "_ttb_ent.vhd " $ent_name "_ttb_str.vhd"
+        puts $batf $str
+        puts $batf ""
+
+        close $batf
+    }
+    # generate  ghdl comands
+    if {$dbatv == 1} {
+        set fn $destin_text
+	    append fn "/ghdl_build"
+        set batf [open $fn w+]
+        
+        puts $batf "ghdl -a --std=08 -lib work tb_pkg_header.vhd tb_pkg_body.vhd"
+        set str {}
+        append str "ghdl -a --std=08 -lib work " $ent_name "_tb_ent.vhd " $ent_name "_tb_bhv.vhd"
+        puts $batf $str
+        set str {}
+        append str "ghdl -a --std=08 -lib work " $ent_name "_ttb_ent.vhd " $ent_name "_ttb_str.vhd"
         puts $batf $str
         puts $batf ""
 
