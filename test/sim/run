@@ -1,1 +1,1 @@
-dsim -top work.example_dut_ttb
+dsim -image image -top work.example_dut_ttb
