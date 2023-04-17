@@ -1,0 +1,10 @@
+-lib work
+-vhdl2008
+../../source/tb_pkg_header.vhdl
+../../source/tb_pkg_body.vhdl
+../../examples/example1/vhdl/example_dut_ent.vhd
+../../examples/example1/vhdl/example_dut_bhv.vhd
+../../examples/example1/vhdl/example_dut_tb_ent.vhd
+../../examples/example1/vhdl/example_dut_tb_bhv.vhd
+../../examples/example1/vhdl/example_dut_ttb_ent.vhd
+../../examples/example1/vhdl/example_dut_ttb_str.vhd

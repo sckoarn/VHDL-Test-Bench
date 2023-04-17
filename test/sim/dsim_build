@@ -1,0 +1,4 @@
+rm -fr dsim_work
+dlib map -lib ieee ${STD_LIBS}/ieee08
+dvhcom -f flist.lst
+dsim -genimage image -timescale 1ns/1ps -linebuf -lib work -top work.example_dut_ttb
