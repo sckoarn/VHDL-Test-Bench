@@ -93,7 +93,7 @@ set gbat [checkbutton $tsf.chb1 -text "Gen Modelsim" -variable gbatv]
 set dbatv 0
 set dbat [checkbutton $tsf.chb4 -text "Gen dsim" -variable dbatv]
 set ghbatv 0
-set ghbat [checkbutton $tsf.chb4 -text "Gen ghdl" -variable ghbatv]
+set ghbat [checkbutton $tsf.chb5 -text "Gen ghdl" -variable ghbatv]
 set cpakv 0
 set cpak [checkbutton $tsf.chb2 -text "Copy Package" -variable cpakv]
 #$mo_sel insert end "No bhv" "bhv"
@@ -1037,7 +1037,7 @@ proc ttb_gen {} {
         puts $batf "ECHO OFF"
         puts $batf ""
         puts $batf "vlib work"
-        puts $batf "vcom -quiet tb_pkg_header.vhd tb_pkg_body.vhd"
+        puts $batf "vcom -quiet tb_pkg_header.vhdl tb_pkg_body.vhdl"
         set str {}
         append str "vcom -2008 -quiet " $ent_name "_tb_ent.vhd " $ent_name "_tb_bhv.vhd"
         puts $batf $str
@@ -1055,7 +1055,7 @@ proc ttb_gen {} {
         set batf [open $fn w+]
         
         puts $batf "dlib map -lib ieee \$\{STD_LIBS\}/ieee08"
-        puts $batf "dvhcom -vhdl2008 -lib work tb_pkg_header.vhd tb_pkg_body.vhd"
+        puts $batf "dvhcom -vhdl2008 -lib work tb_pkg_header.vhdl tb_pkg_body.vhdl"
         set str {}
         append str "dvhcom -vhdl2008 -lib work " $ent_name "_tb_ent.vhd " $ent_name "_tb_bhv.vhd"
         puts $batf $str
@@ -1072,12 +1072,12 @@ proc ttb_gen {} {
 	    append fn "/ghdl_build"
         set batf [open $fn w+]
         
-        puts $batf "ghdl -a --std=08 -lib work tb_pkg_header.vhd tb_pkg_body.vhd"
+        puts $batf "ghdl -a --std=08 tb_pkg_header.vhdl tb_pkg_body.vhdl"
         set str {}
-        append str "ghdl -a --std=08 -lib work " $ent_name "_tb_ent.vhd " $ent_name "_tb_bhv.vhd"
+        append str "ghdl -a --std=08 " $ent_name "_tb_ent.vhd " $ent_name "_tb_bhv.vhd"
         puts $batf $str
         set str {}
-        append str "ghdl -a --std=08 -lib work " $ent_name "_ttb_ent.vhd " $ent_name "_ttb_str.vhd"
+        append str "ghdl -a --std=08 " $ent_name "_ttb_ent.vhd " $ent_name "_ttb_str.vhd"
         puts $batf $str
         puts $batf ""
 
@@ -1089,20 +1089,20 @@ proc ttb_gen {} {
     #$p_view step
 
     if {$cpakv == 1} {
-        set avail [file exists "../source/tb_pkg_header.vhd"]
+        set avail [file exists "../source/tb_pkg_header.vhdl"]
         if {$avail < 1} {
             dbg_msg "The package files are not located in the\n expected location. \nThey were not copied."
         }
 
         set dest $destin_text
-        append dest "/tb_pkg_header.vhd"
+        append dest "/tb_pkg_header.vhdl"
         if {[file exists $dest] == 0} {
-            file copy "../source/tb_pkg_header.vhd" $dest
+            file copy "../source/tb_pkg_header.vhdl" $dest
         }
         set dest $destin_text
-        append dest "/tb_pkg_body.vhd"
+        append dest "/tb_pkg_body.vhdl"
         if {[file exists $dest] == 0} {
-            file copy "../source/tb_pkg_body.vhd" $dest
+            file copy "../source/tb_pkg_body.vhdl" $dest
         }
     }
 }
