@@ -120,6 +120,7 @@ architecture bhv of example_dut_tb is
       --  User defined instructions
       define_instruction(inst_list, "RESET_SYS", 0);
       define_instruction(inst_list, "READ_PINS", 1);
+      define_instruction(inst_list, "READ_VAR", 1);
       define_instruction(inst_list, "WRITE_DUT", 2);
       define_instruction(inst_list, "VERIFY", 1);
   
@@ -172,6 +173,21 @@ architecture bhv of example_dut_tb is
           end if;
         
         --------------------------------------------------------------------------------
+        --  READ_VAR
+        --    read a variable, put value in read_data
+        --  par1 varable name
+      elsif (instruction(1 to len) = "READ_VAR") then
+        index_variable(defined_vars, par1, temp_int, valid);
+        if(valid /= 0) then
+          --v_read_data  :=  std_logic_vector(temp_int);
+          v_read_data  :=  std_logic_vector(conv_unsigned(temp_int,32));
+        else
+          assert (false)
+            report "READ_VAR Error: Not a valid Variable??"
+          severity failure;
+        end if;
+      
+      --------------------------------------------------------------------------------
         --  VERIFY
         --    par1  Data to compare
         elsif (instruction(1 to len) = "VERIFY") then

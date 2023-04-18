@@ -1,3 +1,4 @@
-VAR1 0xFFFFFFE8  &  VAR2 0
-VAR1 32  &  VAR2 0
-VAR1 32  &  VAR2 32
+VAR1 0xFFFFFFEC  &  VAR2 0x5
+VAR1 0x02  &  VAR2 0x5
+VAR1 0x02  &  VAR2 0x02
+Test Finished with NO errors!!
