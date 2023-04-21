@@ -267,11 +267,6 @@ package tb_pkg is
                            variable ptr        :  in  stm_text_ptr;
                            constant b          :  in  base);
 
--------------------------------------------------------------------------
---  convert a std_logic_vector to an unsigned integer
-    function to_uninteger  ( constant vect     : in std_logic_vector
-                         ) return integer;
-
 ---  debug & Dev
   procedure dump_insts (variable insts : in inst_def_ptr);
 end tb_pkg;

@@ -1,0 +1,72 @@
+--------------------------------------------
+--  Purpose:   confirm numbers max and min
+--             integers correctly obtained
+--             from stimulus and displayed
+---------------------------------------------
+
+--MESSAGES_ON
+DEFINE_VAR VAR1 0
+
+DEFINE_VAR MIN -2147483648
+DEFINE_VAR MAX 2147483647
+
+SHOW_BIN "Show BINARY:  $MIN
+SHOW_DEC "Show Decimal: $MIN
+SHOW_HEX "Show Hex:     $MIN
+SHOW_BIN "Show BINARY:  $MAX
+SHOW_DEC "Show Decimal: $MAX
+SHOW_HEX "Show Hex:     $MAX
+
+READ_VAR MIN          "READ MIN: $MIN
+READ_VAR MAX          "READ MAX: $MAX
+
+ADD_VAR VAR1 -2147483648
+READ_VAR VAR1            "READ VAR1: $VAR1
+VERIFY -2147483648       "Verify: $VAR1
+
+ADD_VAR VAR1 2147483647
+READ_VAR VAR1   "VAR1: $VAR1
+VERIFY -1       "VAR1: $VAR1
+
+EQU_VAR VAR1 $MIN   "VAR1: $VAR1
+ADD_VAR VAR1 32     "VAR1: $VAR1
+
+
+EQU_VAR VAR1 b11111111111111111111111111111111   "Binary VAR1: $VAR1
+SHOW_BIN "Show Binary VAR1: $VAR1
+SHOW_DEC "Is Integer: $VAR1
+READ_VAR VAR1
+VERIFY -1
+
+EQU_VAR VAR1 b10000000000000000000000000000000   "Binary VAR1: $VAR1
+SHOW_BIN "Show Binary VAR1: $VAR1
+SHOW_DEC "Is Integer: $VAR1
+READ_VAR VAR1
+VERIFY $MIN
+
+EQU_VAR VAR1 b1111111111111111111111111111111   "Binary VAR1: $VAR1
+SHOW_BIN "Show Binary VAR1: $VAR1
+SHOW_DEC "Is Integer: $VAR1
+READ_VAR VAR1
+VERIFY $MAX
+
+EQU_VAR VAR1 xffffffff   "Hex ffffffff VAR1: $VAR1
+SHOW_HEX "Show Hex VAR1: $VAR1
+SHOW_DEC "Is Integer: $VAR1
+READ_VAR VAR1
+VERIFY -1
+
+EQU_VAR VAR1 x80000000   "Hex 80000000 VAR1: $VAR1
+SHOW_HEX "Show Hex VAR1: $VAR1
+SHOW_DEC "Is Integer: $VAR1
+READ_VAR VAR1
+VERIFY $MIN
+
+EQU_VAR VAR1 x7fffffff   "Hex 7ffffff  VAR1: $VAR1
+SHOW_HEX "Show Hex VAR1: $VAR1
+SHOW_DEC "Is Integer: $VAR1
+READ_VAR VAR1
+VERIFY $MAX
+
+
+FINISH
