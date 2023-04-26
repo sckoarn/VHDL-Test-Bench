@@ -51,17 +51,21 @@ foreach t $tlst {
     close $ach
     ## get expected # lines to match
     set exlen [llength $elst]
+    puts "Expected Length match:  $exlen"
     set mlen 0
-    foreach a $alst {
-        foreach e $elst {
+    foreach e $elst {
+        #puts "Expect:  $e"
+        foreach a $alst {
+            #puts "Actual:  $a"
             set is [string first $e $a]
             if {$is >= 0} {
+                #puts "Found:  $a"
                 incr mlen
             }
         }
     }
     
-    #puts $mlen
+    puts "Found $mlen matches"
     ## if # of lines expected to match ... pass
     if {$exlen == $mlen} {
         puts "$t PASSED"

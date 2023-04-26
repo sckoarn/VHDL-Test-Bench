@@ -2,7 +2,7 @@
 library IEEE;
 library work;
 use IEEE.STD_LOGIC_1164.all;
-use IEEE.STD_LOGIC_ARITH.all;
+use ieee.numeric_std.all;
 use std.textio.all;
 use std.env.all;
 use work.tb_pkg.all;  --  test bench package
