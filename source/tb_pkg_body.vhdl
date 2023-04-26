@@ -331,7 +331,9 @@ package body tb_pkg is
                        file_name:   in text_line;
                        line_num:        in integer) return integer is
       constant flen :       integer := fld_len(hex_number);
-      variable hvec      :  signed(31 downto 0) := (others => '0');
+      variable hvec :  signed(31 downto 0) := (others => '0');
+      variable nlen :  integer;
+      variable ntxt :  text_field := (others => nul);
     begin
        -- if number is too big fail
        if flen > 8 then
@@ -341,12 +343,24 @@ package body tb_pkg is
                   "Found in file: " & file_name
            severity failure;
        end if;
+       nlen := flen;
+       ntxt := hex_number;
+       if nlen < 8 then
+         while nlen < 8 loop
+           for i in nlen downto 1 loop
+             ntxt(i+1) := ntxt(i);
+           end loop;
+           ntxt(1) := '0';
+           --report ntxt;
+           nlen := fld_len(ntxt);
+         end loop;
+       end if;
        --report "hex2integer got: " & hex_number;
        if flen = 1 then
-         hvec(3 downto 0) := signed(c2std_vec(hex_number(1)));
+         hvec(3 downto 0) := signed(c2std_vec(ntxt(1)));
        else
-         for i in 1 to flen loop
-           hvec((32 - (i*4)) +3 downto (32  - (i*4))) := signed(c2std_vec(hex_number(i)));
+         for i in 1 to nlen loop
+           hvec((32 - (i*4)) +3 downto (32  - (i*4))) := signed(c2std_vec(ntxt(i)));
          end loop;
        end if;
        --report "vector result" & to_string(hvec);
