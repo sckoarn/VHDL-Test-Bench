@@ -1,0 +1,59 @@
+DEFINE_VAR v1 0
+DEFINE_VAR v2 0
+DEFINE_VAR cnt 0
+
+READ_VAR v1
+READ_VAR v1
+READ_VAR v1
+READ_VAR v1
+READ_VAR v1
+
+JUMP $call1
+come_back:
+
+READ_VAR cnt
+VERIFY 8
+FINISH
+
+
+call8:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+RETURN_CALL
+call7:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+  CALL $call8
+RETURN_CALL
+call6:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+  CALL $call7
+RETURN_CALL
+call5:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+  CALL $call6
+RETURN_CALL
+call4:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+  CALL $call5
+RETURN_CALL
+call3:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+  CALL $call4
+RETURN_CALL
+call2:
+  ADD_VAR cnt 1
+  ADD_VAR v1 1
+  CALL $call3
+RETURN_CALL
+call1:
+  ADD_VAR v1 1
+  ADD_VAR cnt 1
+  CALL $call2
+  JUMP $come_back
+
+  
