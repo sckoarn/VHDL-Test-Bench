@@ -11,18 +11,13 @@ READ_VAR v1
 CALL $call1
 
 READ_VAR cnt
-VERIFY 8
+VERIFY 7
 FINISH
 
 
-call8:
-  ADD_VAR cnt 1
-  ADD_VAR v1 1
-RETURN_CALL
 call7:
   ADD_VAR cnt 1
   ADD_VAR v1 1
-  CALL $call8
 RETURN_CALL
 call6:
   ADD_VAR cnt 1
