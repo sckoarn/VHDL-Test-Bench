@@ -269,4 +269,5 @@ package tb_pkg is
 
 ---  debug & Dev
   procedure dump_insts (variable insts : in inst_def_ptr);
+  procedure dump_vars (variable vars : in var_field_ptr);
 end tb_pkg;

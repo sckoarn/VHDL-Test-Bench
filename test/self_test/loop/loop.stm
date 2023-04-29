@@ -1,0 +1,56 @@
+DEFINE_VAR L! 0
+DEFINE_VAR L% 0
+DEFINE_VAR LE 100
+
+DEFINE_VAR L1 0
+DEFINE_VAR L2 0
+DEFINE_VAR L3 0
+DEFINE_VAR L4 0
+DEFINE_VAR L5 0
+DEFINE_VAR L6 0
+DEFINE_VAR L7 0
+DEFINE_VAR L8 0
+
+LOOP 4
+  ADD_VAR L1 1
+  LOOP 4
+    ADD_VAR L2 1
+    LOOP 4
+      ADD_VAR L3 1
+      LOOP 4
+        ADD_VAR L4 1
+        LOOP 4
+          ADD_VAR L5 1
+          LOOP 4
+            ADD_VAR L6 1
+            LOOP 4
+              ADD_VAR L7 1
+              LOOP 4
+                ADD_VAR L8 1
+              END_LOOP
+            END_LOOP
+          END_LOOP
+        END_LOOP
+      END_LOOP
+    END_LOOP
+  END_LOOP
+END_LOOP
+
+READ_VAR L1  "L1 $L1
+--VERIFY 
+READ_VAR L2  "L2 $L2
+--VERIFY 
+READ_VAR L3  "L3 $L3
+--VERIFY 
+READ_VAR L4  "L4 $L4
+--VERIFY 
+READ_VAR L5  "L5 $L5
+--VERIFY 
+READ_VAR L6  "L6 $L6
+--VERIFY 
+READ_VAR L7  "L7 $L7
+--VERIFY 
+READ_VAR L8  "L8 $L8
+--VERIFY 
+
+FINISH

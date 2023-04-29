@@ -1,4 +1,4 @@
 DEFINE_VAR a 0
-READ_VAR a
+READ_VAR a  "a is $a
 VERIFY x5
 FINISH

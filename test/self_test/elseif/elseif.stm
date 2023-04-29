@@ -1,0 +1,27 @@
+DEFINE_VAR if1 0
+DEFINE_VAR if2 10
+
+IF $if1 > $if2
+  ABORT
+ELSEIF $if1 = $if2
+  ABORT
+ELSEIF $if1 < $if2
+  ADD_VAR if1 1
+END_IF
+
+IF $if1 >= $if2
+  ABORT
+ELSEIF $if1 <= $if2
+  ADD_VAR if1 1
+END_IF
+
+IF $if1 = $if2
+  ABORT
+ELSEIF $if1 != $if2
+  ADD_VAR if1 1
+END_IF
+
+
+READ_VAR if1   "Pos cnt: $if1
+
+FINISH

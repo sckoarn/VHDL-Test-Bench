@@ -356,13 +356,13 @@ package body tb_pkg is
          end loop;
        end if;
        --report "hex2integer got: " & hex_number;
-       if flen = 1 then
-         hvec(3 downto 0) := signed(c2std_vec(ntxt(1)));
-       else
+       --if flen = 1 then
+       --  hvec(3 downto 0) := signed(c2std_vec(ntxt(1)));
+       --else
          for i in 1 to nlen loop
            hvec((32 - (i*4)) +3 downto (32  - (i*4))) := signed(c2std_vec(ntxt(i)));
          end loop;
-       end if;
+       --end if;
        --report "vector result" & to_string(hvec);
        return to_integer(hvec);
     end hex2integer;
@@ -1887,6 +1887,22 @@ package body tb_pkg is
       report "Param#: " & integer'image(tptr.params);
       report "Group: " & integer'image(tptr.igroup);
       report "Inst idx: " & integer'image(tptr.iindex);
+    end procedure;
+  
+    procedure dump_vars (variable vars : in var_field_ptr) is
+      variable tptr : var_field_ptr;
+    begin
+      tptr := vars;
+      while tptr.next_rec /= null loop
+        report "Variable: " & tptr.var_name;
+        report "Var Index: " & integer'image(tptr.var_index);
+        report "Var Value: " & integer'image(tptr.var_value);
+        tptr := tptr.next_rec;
+      end loop;
+      -- get the last one
+      report "Variable: " & tptr.var_name;
+      report "Var Index: " & integer'image(tptr.var_index);
+      report "Var Value: " & integer'image(tptr.var_value);
     end procedure;
   
   
