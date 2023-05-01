@@ -137,6 +137,7 @@ clock_driver:
     last_sequ_num  := 0;
     last_sequ_ptr  := inst_sequ;
 
+    --dump_stm(inst_sequ);
 ------------------------------------------------------------------------
 -- Using the Instruction record list, get the instruction and implement
 -- it as per the statements in the elsif tree.
@@ -145,6 +146,10 @@ clock_driver:
     access_inst_sequ(inst_sequ, defined_vars, file_list, v_line, inst_group,
          inst_idx, instruction, par1, par2, par3, par4, par5, par6, txt, len,
          file_name, file_line, last_sequ_num, last_sequ_ptr);
+         
+    --dump_current(v_line, inst_group,inst_idx, instruction,
+    --             par1, par2, par3, par4, par5, par6, txt, len,
+    --             file_name, file_line, last_sequ_num, last_sequ_ptr);
     -- if is defult instruction group
     if inst_group /= 1 then
       --------------------------------------------------------------------------------
@@ -482,12 +487,12 @@ clock_driver:
       elsif (inst_idx = 14) then
         wh_state  :=  false;
         case par2 is
-          when 0 => if(par1 = par3) then if_state  :=  true; end if;
-          when 1 => if(par1 > par3) then if_state  :=  true; end if;
-          when 2 => if(par1 < par3) then if_state  :=  true; end if;
-          when 3 => if(par1 /= par3) then if_state :=  true; end if;
-          when 4 => if(par1 >= par3) then if_state :=  true; end if;
-          when 5 => if(par1 <= par3) then if_state :=  true; end if;
+          when 0 => if(par1 = par3)  then wh_state  :=  true; end if;
+          when 1 => if(par1 > par3)  then wh_state  :=  true; end if;
+          when 2 => if(par1 < par3)  then wh_state  :=  true; end if;
+          when 3 => if(par1 /= par3) then wh_state :=  true; end if;
+          when 4 => if(par1 >= par3) then wh_state :=  true; end if;
+          when 5 => if(par1 <= par3) then wh_state :=  true; end if;
           when others =>
             assert (false)
               report LF & "ERROR:  WHILE instruction got an unexpected value" &
@@ -561,5 +566,4 @@ clock_driver:
 
 
 end bhv;
-
 

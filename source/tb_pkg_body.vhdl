@@ -36,6 +36,12 @@ package body tb_pkg is
 
   -------------------------------------------------------------------------------
   -- FUNCTION Defs
+  -----------------------------------------------
+  --  integer'image
+  function im(int: integer) return string is
+  begin
+    return integer'image(int);
+  end function;
   -------------------------------------------------------------------------------
   --  is_digit
    function is_digit(constant c: in character) return boolean is
@@ -433,8 +439,8 @@ package body tb_pkg is
           --report ln.all;
       end case;
       --  transfer string pointer value to text_field
-      for i in ln.all'left to ln.all'right loop
-        temp(i) := ln.all(i);
+      for k in ln.all'left to ln.all'right loop
+        temp(k) := ln.all(k);
       end loop;
       ---- add prefix if is one
       if(pre(1) /= nul) then
@@ -1904,6 +1910,92 @@ package body tb_pkg is
       report "Var Index: " & integer'image(tptr.var_index);
       report "Var Value: " & integer'image(tptr.var_value);
     end procedure;
+    
+    procedure dump_stm (variable vars : in stim_line_ptr) is
+      variable tptr : stim_line_ptr;
+    begin
+      tptr := vars;
+      while tptr.next_rec /= null loop
+        report "Instruction group: " & integer'image(tptr.igrp);
+        report "Instruction Index: " & integer'image(tptr.iidx);
+        report "Instruction: " & tptr.instruction;
+        report "Instruction F1: " & tptr.inst_field_1;
+        report "Instruction F2: " & tptr.inst_field_2;
+        report "Instruction F3: " & tptr.inst_field_3;
+        report "Instruction F4: " & tptr.inst_field_4;
+        report "Instruction F5: " & tptr.inst_field_5;
+        report "Instruction F6: " & tptr.inst_field_6;
+        report "text: " & tptr.txt.all;
+        report "Line: " & integer'image(tptr.line_number);
+        report "File line: " & integer'image(tptr.file_line);
+        tptr := tptr.next_rec;
+      end loop;
+      -- get the last one
+      report "Instruction group: " & integer'image(tptr.igrp);
+      report "Instruction Index: " & integer'image(tptr.iidx);
+      report "Instruction: " & tptr.instruction;
+      report "Instruction F1: " & tptr.inst_field_1;
+      report "Instruction F2: " & tptr.inst_field_2;
+      report "Instruction F3: " & tptr.inst_field_3;
+      report "Instruction F4: " & tptr.inst_field_4;
+      report "Instruction F5: " & tptr.inst_field_5;
+      report "Instruction F6: " & tptr.inst_field_6;
+      report "text: " & tptr.txt.all;
+      report "Line: " & integer'image(tptr.line_number);
+      report "File line: " & integer'image(tptr.file_line);
+    end procedure;
   
-  
+--  type stim_line is record
+--    igrp:          tb_sint;
+--    iidx:          tb_sint;
+--    instruction:   text_field;
+--    inst_field_1:  text_field;
+--    inst_field_2:  text_field;
+--    inst_field_3:  text_field;
+--    inst_field_4:  text_field;
+--    inst_field_5:  text_field;
+--    inst_field_6:  text_field;
+--    txt:           stm_text_ptr;
+--    line_number:   integer;      -- sequence line
+--    num_of_lines:  integer;      -- total number of lines
+--    file_line:     integer;      -- file line number
+--    file_idx:      integer;
+--    next_rec:      stim_line_ptr;
+--  end record;
+  procedure dump_current(variable sequ_num   :  in  integer;
+                         variable inst_grp   :  in tb_sint;
+                         variable inst_idx   :  in tb_sint;
+                         variable inst       :  in text_field;
+                         variable p1         :  in integer;
+                         variable p2         :  in integer;
+                         variable p3         :  in integer;
+                         variable p4         :  in integer;
+                         variable p5         :  in integer;
+                         variable p6         :  in integer;
+                         variable txt        :  in stm_text_ptr;
+                         variable inst_len   :  in integer;
+                         variable fname      :  in text_line;
+                         variable file_line  :  in integer;
+                         variable last_num   :  in integer;
+                         variable last_ptr   :  in stim_line_ptr
+                         ) is
+  begin
+    report "Sequence numb: " & im(sequ_num);
+    report "Instruction group: " & im(inst_grp);
+    report "Instruction index: " & im(inst_idx);
+    report "Instruction: " & inst;
+    report "Par1: " & im(p1);
+    report "Par2: " & im(p2);
+    report "Par3: " & im(p3);
+    report "Par4: " & im(p4);
+    report "Par5: " & im(p5);
+    report "Par6: " & im(p6);
+    report "Txt: " & txt.all;
+    report "Instruction length: " & im(inst_len);
+    report "File line: " & im(file_line);
+    report "File name: " & fname;
+    report "Last line: " & im(last_num);
+    
+  end procedure;
+    
   end tb_pkg;

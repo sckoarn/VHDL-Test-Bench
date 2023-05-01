@@ -270,4 +270,22 @@ package tb_pkg is
 ---  debug & Dev
   procedure dump_insts (variable insts : in inst_def_ptr);
   procedure dump_vars (variable vars : in var_field_ptr);
+  procedure dump_stm (variable vars : in stim_line_ptr);
+  procedure dump_current(variable sequ_num   :  in  integer;
+                         variable inst_grp   :  in tb_sint;
+                         variable inst_idx   :  in tb_sint;
+                         variable inst       :  in text_field;
+                         variable p1         :  in integer;
+                         variable p2         :  in integer;
+                         variable p3         :  in integer;
+                         variable p4         :  in integer;
+                         variable p5         :  in integer;
+                         variable p6         :  in integer;
+                         variable txt        :  in stm_text_ptr;
+                         variable inst_len   :  in integer;
+                         variable fname      :  in text_line;
+                         variable file_line  :  in integer;
+                         variable last_num   :  in integer;
+                         variable last_ptr   :  in stim_line_ptr
+                         );
 end tb_pkg;
