@@ -1,0 +1,8 @@
+../../source/tb_pkg_header.vhdl
+../../source/tb_pkg_body.vhdl
+./vhdl/example_dut_ent.vhd
+./vhdl/example_dut_bhv.vhd
+./vhdl/example_dut_tb_ent.vhd
+./vhdl/example_dut_tb_bhv.vhd
+./vhdl/example_dut_ttb_ent.vhd
+./vhdl/example_dut_ttb_str.vhd

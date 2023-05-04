@@ -48,7 +48,138 @@ foreach t $tlst {
                 lappend elst $e
             }
         }
+        close $exh#! /usr/bin/tclsh
+
+set vendor dsim
+
+if {$argc > 0} {
+    set v1 [string first "ghdl" $argv]
+    if {$v1 != 0} {
+        puts "Command error:"
+        puts "Valid parameter is 'ghdl'"
+        puts "Default with no parameter is:  dsim"
+        exit
+    }
+    #puts $argv
+    #puts $argc
+    set vendor $argv
+}
+#puts $vendor
+#exit
+
+# store default  repo stimulus
+file copy -force "stm/stimulus_file.stm" "stm/back.stm"
+#  get all the test case directories
+set tlst [glob -directory ../self_test -type d  "*"]
+
+set passed 0
+set failed 0
+set tlen [llength $tlst]
+##  for each test
+foreach t $tlst {
+    # create source and destination stimulus file
+    set des "stm/stimulus_file.stm"
+    set src $t
+    # get the stimulus file name for this test
+    set stmf [split [glob -type f $t/*.stm] "/"]
+    #puts [lindex $stmf end]
+    append src "/" [lindex $stmf end]
+    file copy -force $src $des
+    
+    # open the log file target
+    set status ""
+    ## if is dsim
+    if {$vendor == "dsim"} {
+        set logf "$t/log.out"
+        set lh [open $logf "w"]
+        catch {exec ./run} results options
+        #puts "--------------------------------------"
+        #puts $t
+        #puts $results
+        set details [dict get $options]
+        #puts "------DETAILS--------------------------------"
+        #puts $details
+        foreach d $details {
+            puts $lh $d
+        }
+        close $lh
+    } else {
+        catch {exec ./grun} results options
+        set logf "./grun.log"
+    }
+    ##  if there is an expect file
+    if {[file exists "$t/expect"] == 1} {
+        ##  get the expect and log file and compare
+        ##    find expect text in log output.
+        set exh [open "$t/expect" "r"]
+        set ach [open $logf "r"]
+        set alst [list]
+        while {![eof $ach]} {
+            set a [gets $ach]
+            if {$a != ""} {
+                lappend alst $a
+            }
+        }
+        set elst [list]
+        while {![eof $exh]} {
+            set e [gets $exh]
+            if {$e != ""} {
+                lappend elst $e
+            }
+        }
         close $exh
+        close $ach
+        ## get expected # lines to match
+        set exlen [llength $elst]
+        #puts "Expected Length match:  $exlen"
+        set mlen 0
+        foreach e $elst {
+            #puts "Expect:  $e"
+            foreach a $alst {
+                #puts "Actual:  $a"
+                set is [string first $e $a]
+                if {$is >= 0} {
+                    #puts "Found:  $a"
+                    incr mlen
+                }
+            }
+        }
+    } else {
+        set mlen 333
+        set ach [open $logf "r"]
+        set alst [list]
+        while {![eof $ach]} {
+            set a [gets $ach]
+            if {$a != ""} {
+                set pass [string first "Test Finished with NO errors!!" $a]
+                if {$pass >= 0} {
+                    set exlen 0
+                    set mlen 0
+                    break
+                }
+            }
+        }
+        close $ach
+    }
+    
+    #puts "Found $mlen matches"
+    ## if # of lines expected to match ... pass
+    if {$exlen == $mlen} {
+        puts "$t PASSED"
+        incr passed
+    } else {
+        puts "$t FAILED"
+        incr failed
+    }
+    
+    
+}
+
+puts "For $tlen tests:  $passed  PASSED and  $failed  FAILED"
+
+# restore  default  stimulus
+file copy -force "stm/back.stm" "stm/stimulus_file.stm"
+
         close $ach
         ## get expected # lines to match
         set exlen [llength $elst]
