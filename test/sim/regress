@@ -48,7 +48,7 @@ foreach t $tlst {
                 lappend elst $e
             }
         }
-        close $exh#! /usr/bin/tclsh
+        close $exh
 
 set vendor dsim
 
