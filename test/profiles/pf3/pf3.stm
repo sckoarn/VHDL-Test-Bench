@@ -1,3 +1,9 @@
+----------------------------------------------------
+--  Profile test 3
+--  Call and while loop
+--  variable addition
+--  Expected Duration:  tbd
+
 DEFINE_VAR  L1  0
 DEFINE_VAR  L2  0
 DEFINE_VAR  L3  0
@@ -9,7 +15,7 @@ LOOP 10
 END_LOOP
 
 READ_VAR L1   " L1 is:  $L1
-
+VERIFY 10
 FINISH
 
-INCLUDE  include.stm
+INCLUDE  stm/include.stm
