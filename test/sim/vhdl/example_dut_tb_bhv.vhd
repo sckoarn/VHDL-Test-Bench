@@ -137,12 +137,14 @@ clock_driver:
     last_sequ_num  := 0;
     last_sequ_ptr  := inst_sequ;
 
-    --dump_stm(inst_sequ);
+--    dump_stm(inst_sequ);
+    list_stm(inst_sequ);
 ------------------------------------------------------------------------
 -- Using the Instruction record list, get the instruction and implement
 -- it as per the statements in the elsif tree.
   while(v_line < inst_sequ.num_of_lines) loop
     v_line := v_line + 1;
+    report "Accessing line: " & integer'image(v_line);
     access_inst_sequ(inst_sequ, defined_vars, file_list, v_line, inst_group,
          inst_idx, instruction, par1, par2, par3, par4, par5, par6, txt, len,
          file_name, file_line, last_sequ_num, last_sequ_ptr);
@@ -223,8 +225,8 @@ clock_driver:
       --  This instruction I use for accessing models.  which is the interface
       --   on the example dut.  I use that interface as a stimulus access port.
       elsif (instruction(1 to len) = "WRITE_DUT") then
-        stm_add    <=  std_logic_vector(to_unsigned(par1,32));
-        stm_dat    <=  std_logic_vector(to_unsigned(par2,32));
+        stm_add    <=  std_logic_vector(to_signed(par1,32));
+        stm_dat    <=  std_logic_vector(to_signed(par2,32));
         stm_req_n  <=  '0';
         stm_rwn    <=  '0';
         wait until stm_ack_n'event and stm_ack_n = '0';
@@ -299,6 +301,8 @@ clock_driver:
       --------------------------------------------------------------------------
       --    elsif(instruction(1 to len) = "CALL") then
       elsif(inst_idx = 5) then
+        report "CALL in depth:" & integer'image(stack_ptr);
+        report "CALL to line:" & integer'image(par1);
         if(stack_ptr >= 7) then
           assert (false)
             report "Call Error: Stack over run, calls to deeply nested!!"
@@ -307,10 +311,12 @@ clock_driver:
         stack(stack_ptr)  :=  v_line;
         stack_ptr  :=  stack_ptr + 1;
         v_line       :=  par1 - 1;
+        report "Call to line: " & integer'image(v_line);
       
       --------------------------------------------------------------------------
       --    elsif(instruction(1 to len) = "RETURN_CALL") then
       elsif(inst_idx = 6) then
+        report "CALL out depth:" & integer'image(stack_ptr);
         if(stack_ptr <= 0) then
           assert (false)
             report "Call Error: Stack under run??"
@@ -318,6 +324,7 @@ clock_driver:
         end if;
         stack_ptr  :=  stack_ptr - 1;
         v_line  :=  stack(stack_ptr);
+        report "Return to line: " & integer'image(v_line);
 
       --------------------------------------------------------------------------
       --    elsif(instruction(1 to len) = "JUMP") then

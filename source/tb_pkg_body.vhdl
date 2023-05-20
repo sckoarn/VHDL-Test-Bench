@@ -1945,6 +1945,27 @@ package body tb_pkg is
       report "File line: " & integer'image(tptr.file_line);
     end procedure;
   
+    procedure list_stm (variable vars : in stim_line_ptr) is
+      variable tptr : stim_line_ptr;
+    begin
+      report "Line    Instruction   Pars";
+   
+    
+      tptr := vars;
+      while tptr.next_rec /= null loop
+        report integer'image(tptr.line_number) & " " & tptr.instruction & " " &
+        tptr.inst_field_1  & " " & tptr.inst_field_2 & " " &
+        tptr.inst_field_3  & " " & tptr.inst_field_4 & " " &
+        tptr.inst_field_5  & " " & tptr.inst_field_6;
+        tptr := tptr.next_rec;
+      end loop;
+      -- get the last one
+      report integer'image(tptr.line_number) & " " & tptr.instruction & " " &
+      tptr.inst_field_1  & " " & tptr.inst_field_2 & " " &
+      tptr.inst_field_3  & " " & tptr.inst_field_4 & " " &
+      tptr.inst_field_5  & " " & tptr.inst_field_6;
+    end procedure;
+  
 --  type stim_line is record
 --    igrp:          tb_sint;
 --    iidx:          tb_sint;
