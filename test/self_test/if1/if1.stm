@@ -1,0 +1,8 @@
+DEFINE_VAR if1 0
+DEFINE_VAR if2 10
+
+IF $if2 = 2
+  RESET_SYS
+
+
+FINISH
