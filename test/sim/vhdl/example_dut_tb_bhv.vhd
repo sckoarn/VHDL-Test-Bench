@@ -126,6 +126,9 @@ clock_driver:
     define_instruction(inst_list, "SHOW_BIN", 0);
     define_instruction(inst_list, "SHOW_DEC", 0);
     define_instruction(inst_list, "SHOW_HEX", 0);
+    define_instruction(inst_list, "SIX_PAR", 6);
+    define_instruction(inst_list, "SEV_PAR", 7);
+    define_instruction(inst_list, "MISS_INST", 0);
 
     --dump_insts(inst_list);
     ------------------------------------------------------------------------
@@ -236,7 +239,17 @@ clock_driver:
         stm_dat   <=  (others => 'Z');
         stm_rwn   <=  '1';
         wait for 0 ns;
+        
+      elsif (instruction(1 to len) = "SIX_PAR") then
 
+      elsif (instruction(1 to len) = "SEV_PAR") then
+        report integer'image(par1);
+        report integer'image(par2);
+        report integer'image(par3);
+        report integer'image(par4);
+        report integer'image(par5);
+        report integer'image(par6);
+      
       --------------------------------------------------------------------------------
       --  USER Istruction area.  Add all user instructions above this
       --------------------------------------------------------------------------------
