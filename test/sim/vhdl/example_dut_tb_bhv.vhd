@@ -353,10 +353,24 @@ clock_driver:
       --------------------------------------------------------------------------------
       --     elsif (instruction(1 to len) = "LOOP") then
       elsif (inst_idx = 8) then
-     loop_num := loop_num + 1;
+        loop_num := loop_num + 1;
         loop_line(loop_num) := v_line;
         curr_loop_count(loop_num) := 0;
         term_loop_count(loop_num) := par1;
+        temp_int := v_line;
+        while (instruction(1 to len) /= "END_LOOP") loop
+          if(v_line < inst_sequ.num_of_lines) then
+            v_line := v_line + 1;
+            access_inst_sequ(inst_sequ, defined_vars, file_list, v_line, inst_group,
+                inst_idx, instruction, par1, par2, par3, par4, par5, par6, txt, len,
+                file_name, file_line, last_sequ_num, last_sequ_ptr);
+          else
+            assert (false)
+             report LF & "ERROR: LOOP instruction unable to find terminating END_LOOP statement."
+             severity failure;             
+          end if;
+        end loop;
+        v_line := temp_int;
       
       --------------------------------------------------------------------------------
       --     elsif (instruction(1 to len) = "END_LOOP") then
@@ -520,6 +534,7 @@ clock_driver:
                    "Found on line " & (tb_to_str(file_line,dec)) & " in file " & file_name
               severity failure;
         end case;
+        temp_int := file_line;
 
         if(wh_state = true) then
           wh_stack(wh_ptr) :=  v_line;
@@ -535,7 +550,7 @@ clock_driver:
             else
               assert (false)
                 report LF & "ERROR:  WHILE instruction unable to find terminating" &
-                       LF & "    END_WHILE statement."
+                       LF & "    END_WHILE statement from line " & integer'image(temp_int)
               severity failure;             
             end if;
            
