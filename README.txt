@@ -1,3 +1,9 @@
+Feb 22/24
+
+This repository will be updated with competed tests for VHDL and the SystemVerilog version.
+The repository will be come the home of the "Directed Test Bench System"
+
+This should happen in the June-July time frame.
 
 This repository currently houses what is considered to be a working test bench package.
 The users document has been updated with the latest feature changes and addtions.
